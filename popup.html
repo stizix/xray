@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 240px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #000;
+      color: #e7e9ea;
+    }
+
+    /* Header */
+    .header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #1a1f23;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-icon {
+      width: 28px; height: 28px;
+      background: #1d9bf0;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .header-icon svg { width: 16px; height: 16px; fill: #fff; }
+    .header-text { flex: 1; min-width: 0; }
+    .header-title { font-size: 13px; font-weight: 700; color: #e7e9ea; }
+    .header-by {
+      font-size: 10px; color: #536471;
+      white-space: nowrap;
+    }
+    .header-by a { color: #1d9bf0; text-decoration: none; }
+
+    /* Body */
+    .body { padding: 12px 16px; }
+
+    .section { margin-bottom: 14px; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #536471;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+
+    .stat {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e7e9ea;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-sub { font-size: 11px; color: #536471; font-weight: 400; }
+
+    button {
+      width: 100%;
+      padding: 9px 0;
+      border: none;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-primary { background: #1d9bf0; color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: #1a8cd8; }
+    button:disabled { opacity: 0.4; cursor: default; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #1a1f23; margin: 0 0 14px; }
+
+    /* Unfollow list */
+    #unfollow-list {
+      max-height: 150px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    .unfollow-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #0d1117;
+    }
+    .unfollow-item:last-child { border-bottom: none; }
+    .unfollow-handle { font-size: 12px; font-weight: 600; color: #e7e9ea; }
+    .unfollow-date { font-size: 10px; color: #536471; }
+
+    .hint {
+      font-size: 11px;
+      color: #536471;
+      line-height: 1.4;
+    }
+
+    /* Status */
+    #status {
+      padding: 0 16px 10px;
+      font-size: 10px;
+      color: #536471;
+      text-align: center;
+      min-height: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    <div class="header-text">
+      <div class="header-title">X Tweet Collector</div>
+      <div class="header-by">by <a href="https://github.com/stizix" target="_blank">@stizix</a></div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="section">
+      <div class="section-label">Dataset</div>
+      <div class="stat" id="tweet-count"><span style="color:#536471;font-size:13px">Loading…</span></div>
+      <button class="btn-primary" id="export">Export JSON</button>
+    </div>
+
+    <hr>
+
+    <div class="section">
+      <div class="section-label">Unfollowers</div>
+      <div id="unfollow-count" class="hint">Scroll your followers page first</div>
+      <div id="unfollow-list"></div>
+    </div>
+
+  </div>
+
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
