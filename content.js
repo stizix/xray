@@ -242,11 +242,15 @@ window.addEventListener('popstate', onNavigate);
 
 // ── Observers ────────────────────────────────────────────────────────────────
 
-// Debounced MutationObserver — catches infinite-scroll additions
+// MutationObserver — followers scraped immediately (cells are short-lived in
+// virtual scroll), tweets debounced 400ms (need time to finish rendering).
 let debounce;
 const observer = new MutationObserver(() => {
+  scrapeFollowers();
   clearTimeout(debounce);
-  debounce = setTimeout(scrapeAll, 400);
+  debounce = setTimeout(() => {
+    document.querySelectorAll('article[data-testid="tweet"]').forEach(scrapeArticle);
+  }, 400);
 });
 observer.observe(document.body, { childList: true, subtree: true });
 
