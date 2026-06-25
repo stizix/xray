@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "X Tweet Collector",
+  "name": "XRay",
   "version": "1.0.0",
-  "description": "Silent ML training data collector for x.com",
+  "description": "Track unfollowers, scan tweet engagement, and collect X data — silently.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://x.com/*",
@@ -20,6 +20,12 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Tweet Collector"
+    "default_title": "XRay",
+    "default_icon": {
+      "128": "icons/logo.svg"
+    }
+  },
+  "icons": {
+    "128": "icons/logo.svg"
   }
 }

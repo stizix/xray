@@ -12,131 +12,148 @@
       color: #e7e9ea;
     }
 
-    /* Header */
+    /* ── Header ── */
     .header {
-      padding: 14px 16px 12px;
-      border-bottom: 1px solid #1a1f23;
+      padding: 13px 16px 11px;
+      border-bottom: 1px solid #111;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
     }
-    .header-icon {
-      width: 28px; height: 28px;
-      background: #1d9bf0;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+    .logo {
+      width: 30px; height: 30px; flex-shrink: 0;
     }
-    .header-icon svg { width: 16px; height: 16px; fill: #fff; }
-    .header-text { flex: 1; min-width: 0; }
-    .header-title { font-size: 13px; font-weight: 700; color: #e7e9ea; }
-    .header-by {
-      font-size: 10px; color: #536471;
-      white-space: nowrap;
+    .header-text { flex: 1; }
+    .header-title {
+      font-size: 14px; font-weight: 800; color: #e7e9ea;
+      letter-spacing: -.3px;
     }
-    .header-by a { color: #1d9bf0; text-decoration: none; }
+    .header-title span { color: #1d9bf0; }
+    .header-by { font-size: 10px; color: #333; margin-top: 1px; }
+    .header-by a { color: #536471; text-decoration: none; }
+    .header-by a:hover { color: #1d9bf0; }
 
-    /* Body */
-    .body { padding: 12px 16px; }
-
+    /* ── Sections ── */
+    .body { padding: 13px 16px; }
     .section { margin-bottom: 14px; }
     .section:last-child { margin-bottom: 0; }
 
     .section-label {
-      font-size: 10px;
-      font-weight: 600;
+      font-size: 10px; font-weight: 700;
       color: #536471;
       text-transform: uppercase;
-      letter-spacing: .06em;
-      margin-bottom: 6px;
+      letter-spacing: .07em;
+      margin-bottom: 7px;
     }
 
-    .stat {
-      font-size: 20px;
-      font-weight: 700;
-      color: #e7e9ea;
-      line-height: 1;
-      margin-bottom: 8px;
+    /* Unfollow — primary */
+    .big-stat {
+      font-size: 28px; font-weight: 800; color: #e7e9ea;
+      line-height: 1; margin-bottom: 4px;
     }
-    .stat-sub { font-size: 11px; color: #536471; font-weight: 400; }
-
-    button {
-      width: 100%;
-      padding: 9px 0;
-      border: none;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background .15s;
-    }
-    .btn-primary { background: #1d9bf0; color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: #1a8cd8; }
-    button:disabled { opacity: 0.4; cursor: default; }
-
-    /* Divider */
-    hr { border: none; border-top: 1px solid #1a1f23; margin: 0 0 14px; }
+    .big-stat-sub { font-size: 11px; color: #536471; margin-bottom: 10px; }
 
     /* Unfollow list */
     #unfollow-list {
-      max-height: 150px;
+      max-height: 140px;
       overflow-y: auto;
+      margin-bottom: 2px;
       scrollbar-width: thin;
-      scrollbar-color: #333 transparent;
+      scrollbar-color: #1a1a1a transparent;
     }
     .unfollow-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 5px 0;
-      border-bottom: 1px solid #0d1117;
+      border-bottom: 1px solid #0d0d0d;
     }
-    .unfollow-item:last-child { border-bottom: none; }
-    .unfollow-handle { font-size: 12px; font-weight: 600; color: #e7e9ea; }
-    .unfollow-date { font-size: 10px; color: #536471; }
+    .unfollow-item:last-child { border: none; }
+    .u-handle { font-size: 12px; font-weight: 600; }
+    .u-date { font-size: 10px; color: #536471; }
 
-    .hint {
-      font-size: 11px;
-      color: #536471;
-      line-height: 1.4;
+    .hint { font-size: 11px; color: #536471; line-height: 1.5; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #111; margin: 0 0 14px; }
+
+    /* Dataset — secondary */
+    .small-stat {
+      font-size: 13px; font-weight: 700;
+      color: #71767b; margin-bottom: 8px;
     }
 
-    /* Status */
+    /* Button */
+    button {
+      width: 100%; padding: 8px 0;
+      border: none; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn-primary { background: #1d9bf0; color: #fff; }
+    .btn-primary:hover:not(:disabled) { opacity: .85; }
+    button:disabled { opacity: .35; cursor: default; }
+
     #status {
       padding: 0 16px 10px;
-      font-size: 10px;
-      color: #536471;
-      text-align: center;
-      min-height: 14px;
+      font-size: 10px; color: #536471;
+      text-align: center; min-height: 14px;
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <div class="header-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-    </div>
+    <!-- Inline logo SVG -->
+    <svg class="logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1d9bf0" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="r" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1d9bf0" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#1d9bf0" stop-opacity="1"/>
+          <stop offset="55%" stop-color="#1d9bf0" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#1d9bf0" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="f"><feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect width="128" height="128" rx="22" fill="#000"/>
+      <circle cx="64" cy="64" r="58" fill="url(#g)"/>
+      <circle cx="64" cy="64" r="52" fill="none" stroke="#1d9bf0" stroke-width=".8" opacity=".15"/>
+      <circle cx="64" cy="64" r="34" fill="none" stroke="#1d9bf0" stroke-width=".8" opacity=".22"/>
+      <circle cx="64" cy="64" r="18" fill="none" stroke="#1d9bf0" stroke-width="1" opacity=".35"/>
+      <line x1="22" y1="22" x2="106" y2="106" stroke="#e7e9ea" stroke-width="15" stroke-linecap="round"/>
+      <line x1="106" y1="22" x2="22" y2="106" stroke="#e7e9ea" stroke-width="15" stroke-linecap="round"/>
+      <line x1="22" y1="22" x2="106" y2="106" stroke="url(#r)" stroke-width="5" stroke-linecap="round" filter="url(#f)" opacity=".95"/>
+      <circle cx="64" cy="64" r="5" fill="#1d9bf0" opacity=".9" filter="url(#f)"/>
+    </svg>
     <div class="header-text">
-      <div class="header-title">X Tweet Collector</div>
+      <div class="header-title">X<span>Ray</span></div>
       <div class="header-by">by <a href="https://github.com/stizix" target="_blank">@stizix</a></div>
     </div>
   </div>
 
   <div class="body">
 
+    <!-- PRIMARY: Unfollowers -->
     <div class="section">
-      <div class="section-label">Dataset</div>
-      <div class="stat" id="tweet-count"><span style="color:#536471;font-size:13px">Loading…</span></div>
-      <button class="btn-primary" id="export">Export JSON</button>
+      <div class="section-label">Unfollowers</div>
+      <div class="big-stat" id="unfollow-stat">—</div>
+      <div class="big-stat-sub" id="unfollow-sub">Scroll your followers page to start</div>
+      <div id="unfollow-list"></div>
     </div>
 
     <hr>
 
+    <!-- SECONDARY: Dataset -->
     <div class="section">
-      <div class="section-label">Unfollowers</div>
-      <div id="unfollow-count" class="hint">Scroll your followers page first</div>
-      <div id="unfollow-list"></div>
+      <div class="section-label">Dataset</div>
+      <div class="small-stat" id="tweet-count">Loading…</div>
+      <button class="btn-primary" id="export">Export JSON</button>
     </div>
 
   </div>

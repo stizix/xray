@@ -1,0 +1,41 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1d9bf0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ray-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d9bf0" stop-opacity="0"/>
+      <stop offset="45%" stop-color="#1d9bf0" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#1d9bf0" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#1d9bf0" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="22" fill="#000"/>
+
+  <!-- Ambient glow -->
+  <circle cx="64" cy="64" r="58" fill="url(#glow)"/>
+
+  <!-- Radar rings -->
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#1d9bf0" stroke-width="0.8" opacity="0.15"/>
+  <circle cx="64" cy="64" r="37" fill="none" stroke="#1d9bf0" stroke-width="0.8" opacity="0.22"/>
+  <circle cx="64" cy="64" r="22" fill="none" stroke="#1d9bf0" stroke-width="1" opacity="0.35"/>
+
+  <!-- X — solid white strokes -->
+  <line x1="22" y1="22" x2="106" y2="106" stroke="#e7e9ea" stroke-width="15" stroke-linecap="round"/>
+  <line x1="106" y1="22" x2="22" y2="106" stroke="#e7e9ea" stroke-width="15" stroke-linecap="round"/>
+
+  <!-- Ray beam through top-left diagonal (the "X-Ray" pun) -->
+  <line x1="22" y1="22" x2="106" y2="106"
+        stroke="url(#ray-grad)" stroke-width="5" stroke-linecap="round"
+        filter="url(#glow-filter)" opacity="0.95"/>
+
+  <!-- Center dot — focal point of the scan -->
+  <circle cx="64" cy="64" r="5" fill="#1d9bf0" opacity="0.9" filter="url(#glow-filter)"/>
+</svg>

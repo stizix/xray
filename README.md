@@ -1,6 +1,8 @@
-# X Tweet Collector
+# XRay 🔬
 
-A silent Chrome extension (Manifest V3) that passively collects tweet data as you browse X (Twitter) — designed for ML training and X growth analysis.
+> *See through X.*
+
+A silent Chrome extension that tracks unfollowers and collects tweet engagement data as you browse X — no account needed, no API, 100% local.
 
 Built by [@stizix](https://github.com/stizix)
 
@@ -8,23 +10,53 @@ Built by [@stizix](https://github.com/stizix)
 
 ## Features
 
-- **Silent collection** — no UI, no interruptions. Just browse X normally.
-- **Rich tweet data** — text, handle, engagement stats (replies, retweets, likes, views), timestamps, media flags
-- **Thread replies** — captures top replies with their own engagement stats when you open a thread
-- **Replied label** — marks tweets you clicked Reply on (`replied: true`) for supervised learning
-- **Unfollow tracker** — detects who unfollowed you between sessions on your followers page
-- **IndexedDB storage** — handles thousands of entries with no size limits
-- **One-click export** — downloads your full dataset as JSON
+- **Unfollow tracker** — detects who stopped following you between sessions
+- **Silent tweet collection** — captures engagement data as you scroll (text, likes, views, replies, retweets)
+- **Thread replies** — captures top 5 replies with their own stats when you open a thread
+- **Replied label** — marks tweets you engaged with (`replied: true`) for ML training
+- **Media & quote detection** — flags tweets with media or quote-tweets
+- **100% local** — IndexedDB only, nothing sent anywhere
+- **One-click JSON export** — download your full dataset anytime
 
 ---
 
-## Data schema
+## Install
+
+> No sign-up. No API key. No server.
+
+1. Clone or [download this repo](../../releases)
+2. Go to `chrome://extensions` in Chrome
+3. Enable **Developer mode** (top right)
+4. Click **Load unpacked** → select the `tweet-collector` folder
+
+---
+
+## How to use
+
+### Unfollow tracker
+1. Go to `x.com/YOUR_HANDLE/followers`
+2. Scroll all the way down
+3. Navigate away — XRay saves a snapshot automatically
+4. **Next visit**: it diffs against the previous snapshot → unfollowers appear in the popup
+
+> First visit = reference snapshot. Unfollowers show up from the second visit onwards.
+
+### Tweet collection
+Just browse X. Every tweet that appears on screen is silently captured.
+Click the extension icon → **Export JSON** to download your dataset.
+
+### Replied label
+Click Reply on any tweet → it gets marked `replied: true` in your dataset. Useful for training a model on which tweets you actually engage with.
+
+---
+
+## Dataset schema
 
 ```json
 {
   "tweet_id": "2063561856220795181",
   "handle": "@username",
-  "text": "Tweet content here",
+  "text": "Tweet content",
   "posted_at": "2026-06-07T10:01:00.000Z",
   "collected_at": "2026-06-07T10:38:00.000Z",
   "reply_count": 6,
@@ -53,73 +85,45 @@ Built by [@stizix](https://github.com/stizix)
 
 ---
 
-## Installation
-
-> No sign-up, no server, no API key — runs entirely in your browser.
-
-1. [Download the latest release](../../releases) or clone this repo
-2. Open Chrome and go to `chrome://extensions`
-3. Enable **Developer mode** (top right toggle)
-4. Click **Load unpacked** and select the `tweet-collector` folder
-5. The extension icon appears in your toolbar — you're done
-
----
-
-## Usage
-
-### Collecting tweets
-Browse X normally. The extension silently captures every tweet that appears on screen — timeline, search, threads, profiles.
-
-### Labeling your replies
-When you click the Reply button on a tweet, it's automatically marked `replied: true` in the dataset. This lets you train a model on which tweets you engaged with.
-
-### Capturing thread replies
-Open any tweet thread. The top 5 replies are captured inside `top_replies[]` of the main tweet, with their individual engagement stats.
-
-### Tracking unfollowers
-1. Go to `x.com/YOUR_HANDLE/followers`
-2. Scroll to the bottom (everyone must pass on screen)
-3. Navigate away — the extension saves a snapshot automatically
-4. On your **next visit**, it diffs against the previous snapshot and records unfollowers
-5. Open the popup to see who unfollowed you
-
-### Exporting your dataset
-Click the extension icon → **Export JSON**
-
----
-
-## Files
+## Architecture
 
 ```
-tweet-collector/
-├── manifest.json    # MV3 config, scoped to x.com
-├── background.js    # Service worker — IndexedDB + persistent port
-├── content.js       # DOM scraper + follower tracker
-├── popup.html       # Extension popup UI
-└── popup.js         # Popup logic
+xray/
+├── manifest.json    # MV3, scoped to x.com
+├── background.js    # Service worker — IndexedDB + persistent port (keep-alive)
+├── content.js       # DOM scraper + follower tracker + SPA navigation detection
+├── popup.html       # Popup UI
+├── popup.js         # Popup logic
+└── icons/
+    └── logo.svg     # Extension logo
 ```
+
+**Why persistent port?** MV3 service workers get killed after ~30s of inactivity. A persistent port from the content script keeps the worker alive, preventing silent message loss mid-collection.
 
 ---
 
-## How it works
+## Contributing
 
-- A `MutationObserver` (debounced 400ms) watches the DOM for new tweet articles as you scroll
-- Data is sent via a **persistent port connection** to the background service worker, keeping it alive and preventing message loss (common issue with MV3)
-- The service worker upserts records into IndexedDB — re-scraping updates engagement counts while preserving labels like `replied`
-- On thread pages, only the main tweet is saved as a standalone record; replies live in `top_replies[]`
-- Follower handles are collected in a session Set and diffed against the previous snapshot when you leave the followers page
+PRs welcome. Some ideas for features:
+
+- [ ] Follower growth chart over time
+- [ ] Best time to post (based on collected engagement)
+- [ ] Detect ratio'd tweets
+- [ ] Export to CSV
+- [ ] Filter dataset by engagement threshold
+- [ ] Notification when someone unfollows
 
 ---
 
 ## Privacy
 
-All data stays **100% local** in your browser's IndexedDB. Nothing is sent to any server. The extension only has permission to run on `x.com`.
+All data lives in your browser's IndexedDB. The extension only has permission to run on `x.com`. Nothing is ever sent to any external server.
 
 ---
 
 ## License
 
-MIT — do whatever you want with it.
+MIT
 
 ---
 
