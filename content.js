@@ -236,9 +236,15 @@ function onNavigate() {
   lastPath = newPath;
 }
 
-const _push = history.pushState.bind(history);
-history.pushState = (...args) => { _push(...args); onNavigate(); };
+// Intercept pushState AND replaceState — X.com uses both
+const _push    = history.pushState.bind(history);
+const _replace = history.replaceState.bind(history);
+history.pushState    = (...args) => { _push(...args);    onNavigate(); };
+history.replaceState = (...args) => { _replace(...args); onNavigate(); };
 window.addEventListener('popstate', onNavigate);
+
+// Polling fallback — catches any navigation method we might have missed
+setInterval(onNavigate, 800);
 
 // ── Observers ────────────────────────────────────────────────────────────────
 

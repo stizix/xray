@@ -86,8 +86,11 @@ async function countTweets() {
 
 // ── Followers ────────────────────────────────────────────────────────────────
 
-// In-memory accumulator for the current scroll session
+// In-memory accumulator — restored from chrome.storage.session on SW restart
 const currentSession = new Set();
+chrome.storage.session.get(['follower_session']).then(r => {
+  (r.follower_session || []).forEach(h => currentSession.add(h));
+});
 
 async function finalizeFollowers() {
   if (currentSession.size === 0) return [];
@@ -155,14 +158,17 @@ chrome.runtime.onConnect.addListener(port => {
     }
     if (msg.type === 'ADD_FOLLOWER') {
       currentSession.add(msg.handle);
+      // Persist so session survives service worker restarts
+      chrome.storage.session.set({ follower_session: [...currentSession] });
     }
     if (msg.type === 'FINALIZE_FOLLOWERS') {
       try {
         const unfollowers = await finalizeFollowers();
+        await chrome.storage.session.remove('follower_session');
         if (unfollowers.length > 0) {
-          console.log('[collector] New unfollowers:', unfollowers.map(u => u.handle));
+          console.log('[xray] New unfollowers:', unfollowers.map(u => u.handle));
         }
-      } catch (e) { console.error('[collector] finalizeFollowers', e); }
+      } catch (e) { console.error('[xray] finalizeFollowers', e); }
     }
   });
 });
